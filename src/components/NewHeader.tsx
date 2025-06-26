@@ -1,5 +1,6 @@
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import { Search } from "./Search";
 
 type HeaderProps = {
   onLogout: () => void;
@@ -10,6 +11,7 @@ export default function NewHeader({ onLogout }: HeaderProps) {
     <header className="bg-[#f5f5f5] flex items-center justify-between shadow px-4 py-2">
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-bold">Mitarbeiter</h1>
+        <Search />
       </div>
       <div className="flex items-center gap-3">
         <button

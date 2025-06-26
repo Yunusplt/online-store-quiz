@@ -9,6 +9,7 @@ export interface Product {
   price: number;
   thumbnail: string;
   images: string[];
+  category: string;
   // …other fields
 }
 
@@ -17,7 +18,9 @@ export function useProductSearch(search: string) {
   return useQuery<{ products: Product[] }, Error>({
     queryKey: ["products", search],
     queryFn: () =>
-      api.get("/products", { params: { q: search } }).then((res) => res.data),
+      api
+        .get("/products/search", { params: { q: search } })
+        .then((res) => res.data),
   });
 }
 
