@@ -1,5 +1,3 @@
-// components/Header.tsx
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 

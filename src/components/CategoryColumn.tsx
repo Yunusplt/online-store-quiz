@@ -1,5 +1,3 @@
-import { Product } from "@/hooks/useProducts";
-import Link from "next/link";
 import { ProductCard } from "./ProductCard";
 import { useInfiniteCategory } from "@/hooks/useInfiniteCategory";
 
