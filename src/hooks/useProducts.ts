@@ -1,4 +1,3 @@
-// src/hooks/useProducts.ts
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../utils/api";
 

@@ -1,38 +1,40 @@
 "use client";
 import { SearchIcon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { SearchResults } from "./SearchResults";
 import { SearchOverlay } from "./SearchOverlay";
 
+// Debounce hook
+function useDebounce<T>(value: T, delay = 600): T {
+  const [debounced, setDebounced] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debounced;
+}
+
 export const Search = () => {
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-
-  // Update debouncedSearch after a delay when search changes
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 600);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
+  const debouncedSearch = useDebounce(search);
 
   const isActive = isHovered || isFocused || search.length > 0;
 
-  const handleOverlayClick = () => {
+  const handleOverlayClick = useCallback(() => {
     setSearch("");
-    setDebouncedSearch("");
-    setIsHovered(false);
     setIsFocused(false);
-  };
+    setIsHovered(false);
+  }, []);
 
-  const handleClearSearch = () => {
-    setSearch("");
-    setDebouncedSearch("");
-  };
+  const handleClear = useCallback(() => setSearch(""), []);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  }, []);
 
   return (
     <div
@@ -46,34 +48,38 @@ export const Search = () => {
           : "w-12 rounded-xl"
       } max-w-md h-10 focus-within:border focus-within:border-blue-500 transition-all duration-200`}
     >
-      {isActive ? (
+      <SearchIcon
+        className={`absolute left-3 text-gray-500 ${
+          isActive ? "my-auto" : "top-1/2 transform -translate-y-1/2"
+        }`}
+        size={20}
+      />
+
+      {isActive && (
         <>
-          <SearchIcon
-            className="absolute left-3 my-auto text-gray-500"
-            size={20}
-          />
           <input
-            className="ml-5 p-2 pl-5 pr-6 w-full focus-within:border-none outline-none"
+            className="ml-5 p-2 pl-5 pr-6 w-full outline-none"
             placeholder="Search products..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={handleChange}
           />
           {search && (
             <button
+              onClick={handleClear}
               className="absolute right-3 text-red-400 hover:text-red-700 cursor-pointer text-lg"
-              onClick={() => handleClearSearch()}
             >
               &times;
             </button>
           )}
         </>
-      ) : (
-        <SearchIcon className="absolute left-3 text-gray-500" size={20} />
       )}
-      {/* Show overlay when search is focused */}
-      {(isFocused || search) && <SearchOverlay onClose={handleOverlayClick} />}
 
-      {/* Show overlay and results based on debouncedSearch */}
+      {/* Overlay when focused or has input */}
+      {(isFocused || search.length > 0) && (
+        <SearchOverlay onClose={handleOverlayClick} />
+      )}
+
+      {/* Show results when debounced input is present */}
       {debouncedSearch && (
         <SearchResults
           search={debouncedSearch}
