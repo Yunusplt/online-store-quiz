@@ -12,7 +12,8 @@ export interface Product {
   // …other fields
 }
 
-export function useProducts(search: string) {
+// Generic search hook
+export function useProductSearch(search: string) {
   return useQuery<{ products: Product[] }, Error>({
     queryKey: ["products", search],
     queryFn: () =>

@@ -1,13 +1,14 @@
 "use client";
 import { useProduct } from "@/hooks/useProducts";
+import React from "react";
 
 type PageProps = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export default function ProductDetailPage({ params }: PageProps) {
-  const id = Number(params.id);
-  const { data: p, isLoading } = useProduct(id);
+  const { id } = React.use(params);
+  const { data: p, isLoading } = useProduct(Number(id));
 
   if (isLoading) return <p>Loading…</p>;
   if (!p) return <p>Product not found</p>;

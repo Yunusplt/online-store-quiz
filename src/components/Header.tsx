@@ -6,7 +6,7 @@ type HeaderProps = {
 
 export const Header = ({ onLogout }: HeaderProps) => {
   const user = useAuthUser();
-  console.log("User data:", user.data);
+
   return (
     <header className="flex justify-end p-4 bg-white shadow">
       <button
