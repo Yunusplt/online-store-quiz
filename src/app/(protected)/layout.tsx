@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { setAuthToken } from "../../utils/api";
-import { Header } from "@/components/Header";
+import Navbar from "@/components/Navbar";
 
 export default function ProtectedLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -19,18 +19,13 @@ export default function ProtectedLayout({ children }: { children: ReactNode }) {
     }
   }, [router]);
 
-  const handleLogout = () => {
-    // Clear token and redirect to login
-    localStorage.removeItem("token");
-    router.push("/login");
-  };
-
   if (!checked) return null;
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Header onLogout={handleLogout} />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1">
+        <Navbar>{children}</Navbar>
+      </main>
     </div>
   );
 }
