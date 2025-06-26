@@ -5,27 +5,38 @@ import { SearchResults } from "./SearchResults";
 import { SearchOverlay } from "./SearchOverlay";
 
 // Debounce hook
-function useDebounce<T>(value: T, delay = 600): T {
+function useDebounce<T>(
+  value: T,
+  delay = 600
+): {
+  debounced: T;
+  clearDebounce: () => void;
+} {
   const [debounced, setDebounced] = useState(value);
+
+  const clearDebounce = () => {
+    setDebounced(value);
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => setDebounced(value), delay);
     return () => clearTimeout(handler);
   }, [value, delay]);
-
-  return debounced;
+  return { debounced, clearDebounce };
 }
 
 export const Search = () => {
   const [search, setSearch] = useState("");
   const [isHovered, setIsHovered] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const debouncedSearch = useDebounce(search);
+  const { debounced: debouncedSearch, clearDebounce: clearDebounceSearch } =
+    useDebounce(search);
 
   const isActive = isHovered || isFocused || search.length > 0;
 
   const handleOverlayClick = useCallback(() => {
     setSearch("");
+    clearDebounceSearch();
     setIsFocused(false);
     setIsHovered(false);
   }, []);
