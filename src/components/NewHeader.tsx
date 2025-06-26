@@ -1,5 +1,3 @@
-// components/Header.tsx
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ExitToAppOutlinedIcon from "@mui/icons-material/ExitToAppOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
@@ -12,6 +10,36 @@ export default function NewHeader({ onLogout }: HeaderProps) {
     <header className="bg-[#f5f5f5] flex items-center justify-between shadow px-4 py-2">
       <div className="flex items-center gap-2">
         <h1 className="text-xl font-bold">Mitarbeiter</h1>
+        <div className="bg-white rounded-3xl  p-1.5 flex items-center ">
+          {/* create 5 button side by side */}
+          <button className="px-3 py-1  text-blue-500 border rounded-lg w-25 text-xs hover:bg-blue-600 transition">
+            button
+          </button>
+          <button
+            className="px-3 py-1  text-blue-500 border rounded-lg w-25 text-xs
+                hover:bg-green-600 transition ml-2"
+          >
+            button
+          </button>
+          <button
+            className="px-3 py-1  text-blue-500 border rounded-lg w-25 text-xs   
+                hover:bg-yellow-600 transition ml-2"
+          >
+            button
+          </button>
+          <button
+            className="px-3 py-1 rounded-lg w-25 text-xs font-bold
+                hover:bg-red-600 transition ml-2"
+          >
+            Loger
+          </button>
+          <button
+            className="px-3 py-1  text-blue-500 border rounded-lg w-25 text-xs
+                hover:bg-gray-600 transition ml-2"
+          >
+            Production
+          </button>
+        </div>
       </div>
       <div className="flex items-center gap-3">
         <button
