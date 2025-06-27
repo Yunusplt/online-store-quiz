@@ -14,7 +14,6 @@ export function useLogin() {
     mutationFn: (creds) =>
       api.post("/auth/login", creds).then((res) => res.data),
     onSuccess(data) {
-      console.log(data);
       // 1) Persist the token
       localStorage.setItem("token", data.accessToken);
       // 2) Tell axios to send it on future requests

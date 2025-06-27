@@ -1,15 +1,12 @@
-import { Product } from "@/hooks/useProducts";
-import Link from "next/link";
 import { ProductCard } from "./ProductCard";
 import { useInfiniteCategory } from "@/hooks/useInfiniteCategory";
 
-export function CategoryColumn({
-  name,
-  isLast = false,
-}: {
+type CategoryColumnProps = {
   name: string;
   isLast?: boolean;
-}) {
+};
+
+export function CategoryColumn({ name, isLast = false }: CategoryColumnProps) {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteCategory(name);
 
@@ -23,7 +20,7 @@ export function CategoryColumn({
   const allProducts = data?.pages.flatMap((p) => p.products) || [];
   return (
     <div
-      className={`flex-none w-78  space-y-4 h-full ${
+      className={`flex-none w-78 space-y-4 ${
         !isLast ? "border-r border-gray-200 pr-5" : ""
       }`}
     >
