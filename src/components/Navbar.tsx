@@ -1,8 +1,16 @@
 "use client";
 import React, { useState } from "react";
-import NewHeader from "@/components/NewHeader";
-import SideBarDrawer from "@/components/SideBarDrawer";
 import { useRouter } from "next/navigation";
+import Header from "@/components/Header/Header";
+import Drawer from "@/components/SideBarDrawer/Drawer";
+
+const styles = {
+  container: "flex h-screen max-w-screen",
+  header: "flex flex-col transition-all duration-300",
+  openDrawer: "w-[calc(100%-16rem)] ml-64",
+  closedDrawer: "w-[calc(100%-4rem)] ml-16",
+  main: "bg-[#f5f5f5] p-4 flex-1 overflow-auto",
+};
 
 const Navbar = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(true);
@@ -15,17 +23,15 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <div className="flex h-screen max-w-screen">
-      <SideBarDrawer isOpen={isOpen} toggleDrawer={() => setIsOpen(!isOpen)} />
+    <div className={styles.container}>
+      <Drawer isOpen={isOpen} toggleDrawer={() => setIsOpen(!isOpen)} />
       <div
-        className={`flex flex-col transition-all duration-300 ${
-          isOpen ? "w-[calc(100%-16rem)] ml-64" : "w-[calc(100%-4rem)] ml-16"
+        className={`${styles.header} ${
+          isOpen ? styles.openDrawer : styles.closedDrawer
         }`}
       >
-        <NewHeader onLogout={handleLogout} />
-        <main className="bg-[#f5f5f5] p-4 flex-1 overflow-auto">
-          {children}
-        </main>
+        <Header onLogout={handleLogout} />
+        <main className={styles.main}>{children}</main>
       </div>
     </div>
   );

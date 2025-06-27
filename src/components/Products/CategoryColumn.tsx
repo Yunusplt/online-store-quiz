@@ -1,13 +1,12 @@
 import { ProductCard } from "./ProductCard";
 import { useInfiniteCategory } from "@/hooks/useInfiniteCategory";
 
-export function CategoryColumn({
-  name,
-  isLast = false,
-}: {
+type CategoryColumnProps = {
   name: string;
   isLast?: boolean;
-}) {
+};
+
+export function CategoryColumn({ name, isLast = false }: CategoryColumnProps) {
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteCategory(name);
 

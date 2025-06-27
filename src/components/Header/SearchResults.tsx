@@ -6,6 +6,12 @@ type SearchResultsProps = {
   onButtonClick?: () => void;
 };
 
+const styles = {
+  container:
+    "absolute xl:w-120 max-h-200 overflow-y-auto p-6 bg-white z-50 rounded shadow-md top-12 left-[-20px]",
+  noResults: "text-gray-500 text-center mt-4",
+};
+
 export const SearchResults = ({
   search,
   onButtonClick,
@@ -16,14 +22,11 @@ export const SearchResults = ({
   if (!isLoading && !data) return null; // Don't render loading state if no data yet
 
   return (
-    <div className="absolute w-200 max-h-200  overflow-y-auto p-6 bg-white z-50 rounded shadow-md top-12 left-[-20px]">
-      <h2>Search Results for "{search}"</h2>
+    <div className={styles.container}>
+      <h2>Search Results for &quot;{search}&quot;</h2>
       {!isLoading && data?.products.length === 0 && (
-        <div
-          className="
-            text-gray-500 text-center mt-4"
-        >
-          No products found for "{search}"
+        <div className={styles.noResults}>
+          No products found for &quot;{search}&quot;
         </div>
       )}
       {isLoading && <p>Loading results...</p>}

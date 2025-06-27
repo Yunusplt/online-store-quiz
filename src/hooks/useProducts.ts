@@ -9,6 +9,10 @@ export interface Product {
   thumbnail: string;
   images: string[];
   category: string;
+  rating: number;
+  reviews: { id: number; comment: string; rating: number }[];
+  returnPolicy: string;
+  shippingInformation: string;
   // …other fields
 }
 

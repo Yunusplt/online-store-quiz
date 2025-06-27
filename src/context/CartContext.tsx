@@ -57,7 +57,18 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   };
 
   const removeItem = (productId: number) => {
-    setItems((prev) => prev.filter((item) => item.id !== productId));
+    // setItems((prev) => prev.filter((item) => item.id !== productId));
+    setItems((prev) => {
+      const existing = prev.find((item) => item.id === productId);
+      if (existing && existing.quantity > 1) {
+        return prev.map((item) =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        );
+      }
+      return prev.filter((item) => item.id !== productId);
+    });
   };
 
   const clearCart = () => {

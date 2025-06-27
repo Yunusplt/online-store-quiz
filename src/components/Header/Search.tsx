@@ -1,8 +1,21 @@
 "use client";
 import { SearchIcon } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
 import { SearchResults } from "./SearchResults";
 import { SearchOverlay } from "./SearchOverlay";
+import { useState, useEffect, useCallback } from "react";
+
+const styles = {
+  container:
+    "flex items-center relative max-w-md h-10 focus-within:border focus-within:border-blue-500 transition-all duration-200",
+  activeContainer: "w-[300px] rounded-full bg-white shadow-sm",
+  inactiveContainer: "w-12 rounded-xl",
+  icon: "absolute left-3 text-gray-500",
+  activeIcon: "my-auto",
+  inactiveIcon: "top-1/2 transform -translate-y-1/2",
+  input: "ml-5 p-2 pl-5 pr-6 w-full outline-none",
+  clearButton:
+    "absolute right-3 text-red-400 hover:text-red-700 cursor-pointer text-lg",
+};
 
 // Debounce hook
 function useDebounce<T>(
@@ -38,8 +51,7 @@ export const Search = () => {
     setSearch("");
     clearDebounceSearch();
     setIsFocused(false);
-    setIsHovered(false);
-  }, []);
+  }, [clearDebounceSearch]);
 
   const handleClear = useCallback(() => setSearch(""), []);
 
@@ -52,16 +64,17 @@ export const Search = () => {
       onMouseOver={() => setIsHovered(true)}
       onMouseOut={() => setIsHovered(false)}
       onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      className={`flex items-center relative ${
-        isActive
-          ? "w-[300px] rounded-full bg-white shadow-sm"
-          : "w-12 rounded-xl"
-      } max-w-md h-10 focus-within:border focus-within:border-blue-500 transition-all duration-200`}
+      onBlur={() => {
+        setIsFocused(false);
+        setIsHovered(false);
+      }}
+      className={`relative ${styles.container} ${
+        isActive ? styles.activeContainer : styles.inactiveContainer
+      }`}
     >
       <SearchIcon
-        className={`absolute left-3 text-gray-500 ${
-          isActive ? "my-auto" : "top-1/2 transform -translate-y-1/2"
+        className={`${isActive ? styles.activeIcon : styles.inactiveIcon} ${
+          styles.icon
         }`}
         size={20}
       />
@@ -69,16 +82,13 @@ export const Search = () => {
       {isActive && (
         <>
           <input
-            className="ml-5 p-2 pl-5 pr-6 w-full outline-none"
+            className={styles.input}
             placeholder="Search products..."
             value={search}
             onChange={handleChange}
           />
           {search && (
-            <button
-              onClick={handleClear}
-              className="absolute right-3 text-red-400 hover:text-red-700 cursor-pointer text-lg"
-            >
+            <button onClick={handleClear} className={styles.clearButton}>
               &times;
             </button>
           )}

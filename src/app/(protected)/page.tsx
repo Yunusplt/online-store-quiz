@@ -1,6 +1,6 @@
 "use client";
 
-import { ProductBoard } from "@/components/ProductBoard";
+import { ProductBoard } from "@/components/Products/ProductBoard";
 
 export default function HomePage() {
   return (
